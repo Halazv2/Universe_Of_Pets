@@ -1,3 +1,11 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next", "next/core-web-vitals", "eslint:recommended"],
+  // Telling eslint that React is a global variable and it is readonly.
+  "globals": {
+    "React": "readonly"
+  },
+  "rules": {
+    // Telling eslint to ignore unused variables that start with an underscore.
+    "no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }]
+  }
 }
