@@ -4,6 +4,7 @@ const swaggerDocument = require("../../openapi.json");
 import verifySignUp from "../middlewares/verifySignUp";
 import authJwt from "../middlewares/authJWT";
 import ClientRouter from "./Client.routes";
+import AdminRouter from "./Admin.routes";
 
 const swaggerUiOptions = {
   customCss: ".swagger-ui .topbar { display: none }",
@@ -15,6 +16,7 @@ const swaggerUiOptions = {
 
 const router = Router();
 router.use("/api/client", ClientRouter);
+router.use("/api/admin", AdminRouter);
 
 if (process.env.NODE_ENV === "development") {
   router.use("/dev/api-docs", swaggerUi.serve);
