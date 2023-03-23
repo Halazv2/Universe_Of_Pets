@@ -16,7 +16,6 @@ const Loader = (Component:any) => (props:any) =>
 
 // Pages
 
-const Overview = Loader(lazy(() => import('./content/overview')));
 
 // Dashboards
 
@@ -83,7 +82,21 @@ const routes: RouteObject[] = [
     children: [
       {
         path: '/',
-        element: <Overview />
+        element: <SidebarLayout />,
+        children: [
+          {
+            path: '',
+            element: <Navigate to="tasks" replace />
+          },
+          {
+            path: 'tasks',
+            element: <Tasks />
+          },
+          {
+            path: 'messenger',
+            element: <Messenger />
+          }
+        ]
       },
       {
         path: 'overview',
