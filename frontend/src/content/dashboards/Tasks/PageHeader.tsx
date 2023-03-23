@@ -36,7 +36,7 @@ const AvatarPageTitle = styled(Avatar)(
 
 function PageHeader() {
   const user = {
-    name: 'Catherine Pike',
+    name: 'Hala Ziani',
     avatar: '/static/images/avatars/1.jpg'
   };
 
@@ -56,15 +56,9 @@ function PageHeader() {
             Welcome, {user.name}!
           </Typography>
           <Typography variant="subtitle2">
-            Manage your day to day tasks with style! Enjoy a well built UI
-            system.
+            Manage your day to day tasks and keep track of your progress.
           </Typography>
         </Box>
-      </Box>
-      <Box mt={{ xs: 3, md: 0 }}>
-        <Button variant="contained" startIcon={<DocumentScannerTwoToneIcon />}>
-          Export
-        </Button>
       </Box>
     </Box>
   );
