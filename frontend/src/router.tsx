@@ -7,7 +7,7 @@ import BaseLayout from './layouts/BaseLayout';
 
 import SuspenseLoader from './components/SuspenseLoader';
 
-const Loader = (Component:any) => (props:any) =>
+const Loader = (Component: any) => (props: any) =>
   (
     <Suspense fallback={<SuspenseLoader />}>
       <Component {...props} />
@@ -16,6 +16,7 @@ const Loader = (Component:any) => (props:any) =>
 
 // Pages
 
+const Signin = Loader(lazy(() => import('@/content/auth')));
 
 // Dashboards
 
@@ -41,16 +42,12 @@ const UserSettings = Loader(
 const Buttons = Loader(
   lazy(() => import('./content/pages/Components/Buttons'))
 );
-const Modals = Loader(
-  lazy(() => import('./content/pages/Components/Modals'))
-);
+const Modals = Loader(lazy(() => import('./content/pages/Components/Modals')));
 const Accordions = Loader(
   lazy(() => import('./content/pages/Components/Accordions'))
 );
 const Tabs = Loader(lazy(() => import('./content/pages/Components/Tabs')));
-const Badges = Loader(
-  lazy(() => import('./content/pages/Components/Badges'))
-);
+const Badges = Loader(lazy(() => import('./content/pages/Components/Badges')));
 const Tooltips = Loader(
   lazy(() => import('./content/pages/Components/Tooltips'))
 );
@@ -227,6 +224,10 @@ const routes: RouteObject[] = [
         element: <Forms />
       }
     ]
+  },
+  {
+    path: 'signin',
+    element: <Signin />
   }
 ];
 

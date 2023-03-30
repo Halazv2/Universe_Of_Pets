@@ -29,11 +29,15 @@ app.use(bodyParser.json());
 /* Parsing the body of the request and making it available in the req.body property. */
 app.use(bodyParser.urlencoded({extended: true}));
 
-const allowedOrigins = ["http://127.0.0.1:5173"];
-const options: cors.CorsOptions = {
-  origin: allowedOrigins,
-};
-app.use(cors(options));
+app.use(cors(
+  {
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  },
+));
+
 
 app.use(router, express.static(path.join(__dirname, "public")));
 

@@ -28,14 +28,14 @@ import Footer from '@/components/Footer';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
-function SimpleDialog(props : any) {
+function SimpleDialog(props: any) {
   const { onClose, selectedValue, open } = props;
 
   const handleClose = () => {
     onClose(selectedValue);
   };
 
-  const handleListItemClick = (value: any ) => {
+  const handleListItemClick = (value: any) => {
     onClose(value);
   };
 
