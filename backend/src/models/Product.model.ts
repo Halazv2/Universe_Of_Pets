@@ -8,8 +8,14 @@ const schema = new Schema<IProduct>(
     name: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },
-    image: { type: String, required: true },
-    category: { type: Schema.Types.ObjectId, ref: 'Category' }
+    images: [
+      {
+        path: { type: String, required: true },
+        contentType: { type: String, required: true }
+      }
+    ],
+    // category: { type: Schema.Types.ObjectId, ref: 'Category' }
+    category: { type: String, required: true }
   },
   { timestamps: true }
 );

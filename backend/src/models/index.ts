@@ -1,5 +1,6 @@
 import Clients from './Profile/Client.model';
 import Admin from './Profile/Admin.model';
-import Products from './Products.model';
+import Product from './Product.model';
+import Category from './Category.model';
 
-export { Clients, Admin, Products };
+export { Clients, Admin, Product, Category};

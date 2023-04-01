@@ -1,3 +1,5 @@
+import { Document } from 'mongoose';
+
 export interface IAccount extends Document {
   _id: string;
   first_name: string;
@@ -8,7 +10,6 @@ export interface IAccount extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
-
 export interface IOrder extends Document {
   _id: string;
   products: IProduct[];
@@ -16,7 +17,6 @@ export interface IOrder extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
-
 export interface ICart extends Document {
   _id: string;
   products: IProduct[];
@@ -24,22 +24,26 @@ export interface ICart extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
-
 export interface ICategory extends Document {
   _id: string;
   name: string;
   description: string;
-  image: string;
   createdAt: Date;
   updatedAt: Date;
 }
-
+export interface IImage extends Document {
+  _id: string;
+  path: string;
+  product: string; // Change to string type to store the product ID
+  createdAt: Date;
+  updatedAt: Date;
+}
 export interface IProduct extends Document {
   _id: string;
   name: string;
   description: string;
   price: number;
-  image: string;
+  images: IImage[];
   category: ICategory;
   createdAt: Date;
   updatedAt: Date;

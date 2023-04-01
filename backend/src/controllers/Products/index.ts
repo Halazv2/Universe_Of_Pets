@@ -1,3 +1,4 @@
 import getProducts from './GetProducts';
+import addProduct from './SetProduct';
 
-export { getProducts };
+export { getProducts, addProduct };

@@ -6,6 +6,7 @@ import authJwt from '../middlewares/authJWT';
 import ClientRouter from './Client.routes';
 import AdminRouter from './Admin.routes';
 import ProductsRouter from './Products.routes';
+import CategoryRouter from './Category.routes';
 
 const swaggerUiOptions = {
   customCss: '.swagger-ui .topbar { display: none }',
@@ -19,12 +20,10 @@ const router = Router();
 router.use('/api/client', ClientRouter);
 router.use('/api/admin', AdminRouter);
 router.use('/api/products', ProductsRouter);
+router.use('/api/category', CategoryRouter);
 
 if (process.env.NODE_ENV === 'development') {
   router.use('/dev/api-docs', swaggerUi.serve);
-  router.get(
-    '/dev/api-docs',
-    swaggerUi.setup(swaggerDocument, swaggerUiOptions)
-  );
+  router.get('/dev/api-docs', swaggerUi.setup(swaggerDocument, swaggerUiOptions));
 }
 export default router;

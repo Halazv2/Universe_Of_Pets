@@ -1,10 +1,10 @@
 import { Request, RequestHandler } from 'express';
 import Joi from 'joi';
-import { IProduct, ICart, ICategory, IOrder } from '@/types/interfaces';
-import { Products } from '../../models';
+import { IProduct } from '@/types/interfaces';
+import { Product } from '../../models';
 
 const getProducts: RequestHandler = async (req: Request, res) => {
-  const products: IProduct[] = await Products.find();
+  const products: IProduct[] = await Product.find();
   res.status(200).json(products);
 };
 
