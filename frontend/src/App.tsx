@@ -3,6 +3,7 @@ import { createTheme } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import React, { useMemo } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Dashboard from './screens/dashboaed';
 import Navbar from './screens/navbar';
 import { themeSettings } from './theme';
 
