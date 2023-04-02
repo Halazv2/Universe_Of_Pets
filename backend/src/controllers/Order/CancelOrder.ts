@@ -9,14 +9,16 @@ import logger from '../../logger';
 const cancelOrder: RequestHandler = async (req: Request<{}, {}, IOrder>, res) => {
   const { id } = req.params as { id: string };
 
-  const order = Order.findOne({ _id: id });
+  try {
+    const order = await Order.findById(id);
+    if (!order) {
+      return res.status(404).send('Order not found');
+    }
+    
+    if (order.status === 'completed') {
+      return res.status(400).json({ error: 'Order cannot be cancelled' });
+    }
 
-  if (!order) {
-    logger.error('Order not found');
-    return res.status(400).json({ error: 'Order not found' });
-  }
-
-  if (order) {
     const orderDate = new Date(order.createdAt);
     const currentDate = new Date();
     const difference = currentDate.getTime() - orderDate.getTime();
@@ -29,6 +31,9 @@ const cancelOrder: RequestHandler = async (req: Request<{}, {}, IOrder>, res) =>
       const cancelledOrder = await Order.findByIdAndUpdate(id, { status: 'cancelled' }, { new: true });
       res.status(200).json(cancelledOrder);
     }
+  } catch (err) {
+    logger.error(err);
+    res.status(500).send('Server error');
   }
 };
 
