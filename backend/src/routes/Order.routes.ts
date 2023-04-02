@@ -6,6 +6,7 @@ import authJwt from '../middlewares/authJWT';
 
 const OrderRouter = Router();
 
+OrderRouter.get('/', OrderController.getOrders);
 OrderRouter.post('/', OrderController.setOrder);
 OrderRouter.delete('/:id', OrderController.cancelOrder);
 

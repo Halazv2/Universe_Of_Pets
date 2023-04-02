@@ -1,6 +1,7 @@
 import { Request, RequestHandler } from 'express';
 import Joi from 'joi';
 import { IOrder } from '@/types/interfaces';
+import requestMiddleware from '../../middlewares/request-middleware';
 import { Order } from '../../models';
 
 const getOrders: RequestHandler = async (req: Request, res) => {
@@ -8,4 +9,4 @@ const getOrders: RequestHandler = async (req: Request, res) => {
   res.status(200).json(orders);
 };
 
-export default getOrders;
+export default requestMiddleware(getOrders);
