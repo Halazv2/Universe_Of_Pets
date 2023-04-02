@@ -4,13 +4,11 @@ import { IOrder } from '@/types/interfaces';
 import requestMiddleware from '../../middlewares/request-middleware';
 import { Order } from '../../models';
 
-const GetUserOrderByID: RequestHandler = async (req: Request, res) => {
-  const { id, userId } = req.params as { id: string; userId: string };
+const GetUserOrders: RequestHandler = async (req: Request, res) => {
+  const { user } = req.params as { user: string };
+
   try {
-    const orderData = await Order.findOne({
-      _id: id,
-      user: userId
-    });
+    const orderData = await Order.find({ user });
     if (!orderData) {
       return res.status(404).send('Order not found');
     }
@@ -21,4 +19,4 @@ const GetUserOrderByID: RequestHandler = async (req: Request, res) => {
   }
 };
 
-export default requestMiddleware(GetUserOrderByID);
+export default requestMiddleware(GetUserOrders);

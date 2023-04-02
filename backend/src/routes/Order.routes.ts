@@ -9,5 +9,7 @@ const OrderRouter = Router();
 OrderRouter.get('/', OrderController.getOrders);
 OrderRouter.post('/', OrderController.setOrder);
 OrderRouter.delete('/:id', OrderController.cancelOrder);
+OrderRouter.get('/:id/:userId', OrderController.GetUserOrderByID);
+OrderRouter.get('/:user', OrderController.GetUserOrders);
 
 export default OrderRouter;
