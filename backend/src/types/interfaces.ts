@@ -12,8 +12,10 @@ export interface IAccount extends Document {
 }
 export interface IOrder extends Document {
   _id: string;
+  user: IAccount;
   products: IProduct[];
   total: number;
+  status: 'pending' | 'cancelled' | 'completed';
   createdAt: Date;
   updatedAt: Date;
 }
