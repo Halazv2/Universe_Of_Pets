@@ -8,6 +8,7 @@ import AdminRouter from './Admin.routes';
 import ProductsRouter from './Products.routes';
 import CategoryRouter from './Category.routes';
 import OrderRouter from './Order.routes';
+import statisticsRouter from './Statistics.routes';
 
 const swaggerUiOptions = {
   customCss: '.swagger-ui .topbar { display: none }',
@@ -23,6 +24,7 @@ router.use('/api/admin', AdminRouter);
 router.use('/api/products', ProductsRouter);
 router.use('/api/category', CategoryRouter);
 router.use('/api/order', OrderRouter);
+router.use('/api/statistics', statisticsRouter);
 
 if (process.env.NODE_ENV === 'development') {
   router.use('/dev/api-docs', swaggerUi.serve);

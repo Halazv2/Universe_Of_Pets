@@ -50,3 +50,38 @@ export interface IProduct extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IStatistics extends Document {
+  _id: string;
+  totalExpenses: String;
+  totalRevenue: String;
+  totalProfit: String;
+  dailyData: IDailyStatistics[];
+  monthlyData: IMonthlyStatistics[];
+  expensesByCategory: IExpensesByCategory[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IDailyStatistics extends Document {
+  _id: string;
+  date: Date;
+  expenses: String;
+  revenue: String;
+}
+
+export interface IMonthlyStatistics extends Document {
+  _id: string;
+  date: Date;
+  revenue: String;
+  expenses: String;
+  operationalExpenses: String;
+  nonOperationalExpenses: String;
+}
+
+export interface IExpensesByCategory extends Document {
+  _id: string;
+  salaries: String;
+  supplies: String;
+  services: String;
+}

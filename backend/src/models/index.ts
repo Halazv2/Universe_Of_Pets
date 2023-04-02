@@ -3,5 +3,6 @@ import Admin from './Profile/Admin.model';
 import Product from './Product.model';
 import Category from './Category.model';
 import Order from './Order.model';
+import Statistics from './Statistics.model';
 
-export { Clients, Admin, Product, Category, Order };
+export { Clients, Admin, Product, Category, Order, Statistics };
