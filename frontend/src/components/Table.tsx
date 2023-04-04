@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -31,9 +30,20 @@ function DataTable({ title, data }: porps) {
   const headers = Object.keys(data[0]);
 
   return (
-    <Paper>
+    <Paper
+      sx={{
+        width: '100%',
+        overflow: 'hidden',
+        borderRadius: '0px'
+      }}
+    >
       <Table>
-        <TableHead>
+        <TableHead
+          sx={{
+            backgroundColor: 'grey.900',
+            color: 'primary.contrastText'
+          }}
+        >
           <TableRow>
             {headers.map((header, index) => (
               <TableCell align="center">
@@ -44,9 +54,25 @@ function DataTable({ title, data }: porps) {
             ))}
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody
+          sx={{
+            backgroundColor: 'grey.500',
+            color: 'white',
+            border: 'none'
+          }}
+        >
           {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any) => (
-            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+            <TableRow
+              hover
+              sx={{
+                backgroundColor: 'grey.500',
+                color: 'white',
+                border: 'none'
+              }}
+              role="checkbox"
+              tabIndex={-1}
+              key={row.code}
+            >
               {headers.map((header, index) => (
                 <TableCell align="center" key={index}>
                   {row[header]}
@@ -57,6 +83,10 @@ function DataTable({ title, data }: porps) {
         </TableBody>
       </Table>
       <TablePagination
+        sx={{
+          backgroundColor: 'grey.900',
+          color: 'white'
+        }}
         rowsPerPageOptions={[2, 3, 100]}
         component="div"
         count={data.length}

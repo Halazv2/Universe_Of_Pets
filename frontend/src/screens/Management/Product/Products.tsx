@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import FlexBetween from '@/components/FlexBetween';
 import { useTheme } from '@emotion/react';
 import DataTable from '@/components/Table';
@@ -56,8 +56,53 @@ function Management() {
         </Typography>
       </Box>
 
-      <Box width="100%" height="100%">
-        <DataTable title="Products" data={data} />
+      <Box
+        width="100%"
+        height="100%"
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '1rem',
+          width: '100%',
+
+          marginTop: '1rem',
+          '@media (max-width: 1200px)': {
+            flexDirection: 'column'
+          }
+        }}
+      >
+        <Box width="100%">
+          <Typography
+            sx={{
+              textAlign: 'left',
+              width: '100%',
+              color: 'grey.400',
+              fontSize: '1rem',
+              fontWeight: 'bold',
+              marginBottom: '1rem'
+            }}
+          >
+            Products
+          </Typography>
+          <DataTable title="Products" data={data} />
+        </Box>
+        <Box width="100%">
+          <Typography
+            sx={{
+              textAlign: 'left',
+              width: '100%',
+              color: 'grey.400',
+              fontSize: '1rem',
+              fontWeight: 'bold',
+              marginBottom: '1rem'
+            }}
+          >
+            Categories
+          </Typography>
+          <DataTable title="Products" data={data} />
+        </Box>
       </Box>
     </Box>
   );
