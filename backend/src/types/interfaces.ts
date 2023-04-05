@@ -46,7 +46,7 @@ export interface IProduct extends Document {
   description: string;
   price: number;
   images: IImage[];
-  category: ICategory;
+  category: ICategory[];
   createdAt: Date;
   updatedAt: Date;
 }

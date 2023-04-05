@@ -24,9 +24,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 ProductsRouter.get('/', ProductController.getProducts);
-ProductsRouter.post('/', [authJwt.verifyToken, upload.array('images', 5)], (req: any, res: any) => {
+ProductsRouter.post('/', [upload.array('images', 5)], (req: any, res: any) => {
   const { name, description, price, category } = req.body;
-  const images = req.files.map((file: any) => {
+  const images = req.files?.map((file: any) => {
     return {
       path: file.filename,
       contentType: file.mimetype

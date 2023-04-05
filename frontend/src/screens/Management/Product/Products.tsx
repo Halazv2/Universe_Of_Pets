@@ -5,6 +5,7 @@ import DataTable from '@/components/Table';
 import { useGetProductsQuery, useGetCategoriesQuery } from '@/state/api';
 import TransitionsModal from '@/components/TransitionsModal';
 import CreateCategoryModal from './CreateCategoryModal';
+import CreateProductModal from './CreateProductModal';
 
 function Management() {
   const theme = useTheme();
@@ -43,9 +44,15 @@ function Management() {
     }
   }, [productsData, categoriesData]);
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openCategory, setOpenCategory] = React.useState(false);
+  const handleOpenCategory = () => setOpenCategory(true);
+  const [openProduct, setOpenProduct] = React.useState(false);
+  const handleOpenProduct = () => setOpenProduct(true);
+
+  const handleClose = () => {
+    setOpenCategory(false);
+    setOpenProduct(false);
+  };
 
   return (
     <Box
@@ -82,7 +89,7 @@ function Management() {
             }
           }}
         >
-          <Box width="100%">
+          <Box width="100%" onClick={handleOpenProduct}>
             <Typography
               sx={{
                 textAlign: 'left',
@@ -98,7 +105,7 @@ function Management() {
             <DataTable title="Products" data={products} />
           </Box>
           <Box width="100%">
-            <Box onClick={handleOpen}>
+            <Box onClick={handleOpenCategory}>
               <Typography
                 sx={{
                   textAlign: 'left',
@@ -117,7 +124,8 @@ function Management() {
         </Box>
       )}
 
-      <CreateCategoryModal open={open} handleClose={handleClose} />
+      <CreateCategoryModal open={openCategory} handleClose={handleClose} />
+      <CreateProductModal open={openProduct} handleClose={handleClose} />
     </Box>
   );
 }

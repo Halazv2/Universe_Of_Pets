@@ -15,7 +15,12 @@ const schema = new Schema<IProduct>(
       }
     ],
     // category: { type: Schema.Types.ObjectId, ref: 'Category' }
-    category: { type: String, required: true }
+    category: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Category'
+      }
+    ]
   },
   { timestamps: true }
 );

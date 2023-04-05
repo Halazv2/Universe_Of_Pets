@@ -24,8 +24,25 @@ export const api = createApi({
     getCategories: build.query<Array<getCategoryResponse>, void>({
       query: () => 'category',
       providesTags: ['Category']
+    }),
+    setProducts: build.mutation<
+      GetProductsResponse,
+      {
+        name: string;
+        description: string;
+        price: number;
+        category: Array<string>;
+        images: Array<string>;
+      }
+    >({
+      query: (product) => ({
+        url: 'products',
+        method: 'POST',
+        body: { ...product }
+      }),
+      invalidatesTags: ['Products']
     })
   })
 });
 
-export const { useGetKpisQuery, useGetProductsQuery, useSetCategoryMutation, useGetCategoriesQuery } = api;
+export const { useGetKpisQuery, useGetProductsQuery, useSetCategoryMutation, useGetCategoriesQuery, useSetProductsMutation } = api;

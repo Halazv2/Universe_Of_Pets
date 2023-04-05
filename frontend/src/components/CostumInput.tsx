@@ -6,7 +6,7 @@ type Props = {
   placeholder: string;
   error: boolean;
   message: string;
-  value: string;
+  value: any;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   label: string;
 };
