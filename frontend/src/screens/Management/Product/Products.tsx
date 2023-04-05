@@ -1,42 +1,51 @@
-import React from 'react';
-import { Box, Typography, useMediaQuery } from '@mui/material';
-import FlexBetween from '@/components/FlexBetween';
+import React, { useEffect } from 'react';
+import { Box, Typography } from '@mui/material';
 import { useTheme } from '@emotion/react';
 import DataTable from '@/components/Table';
+import { useGetProductsQuery, useGetCategoriesQuery } from '@/state/api';
+import TransitionsModal from '@/components/TransitionsModal';
+import CreateCategoryModal from './CreateCategoryModal';
 
 function Management() {
-  const data = [
-    {
-      code: 'E101',
-      name: 'Ajay Bhatia',
-      salary: 500000,
-      phone: 9815215233
-    },
-    {
-      code: 'E102',
-      name: 'Ajit Singh',
-      salary: 510000,
-      phone: 9415245233
-    },
-    {
-      code: 'E103',
-      name: 'Rameshwer Singh',
-      salary: 550000,
-      phone: 9912215243
-    },
-    {
-      code: 'E104',
-      name: 'James Smith',
-      salary: 200000,
-      phone: 9915115131
-    },
-    {
-      code: 'E105',
-      name: 'Kruth',
-      salary: 400000,
-      phone: 9015115131
+  const theme = useTheme();
+  // setProducts(
+  //   products.map((product: any) => ({
+  //     name: product.name,
+  //     price: product.price + ' €',
+  //     category: product.category,
+  //     description: product.description
+  //   }))
+  // );
+  const [products, setProducts] = React.useState<any>([]);
+  const [categories, setCategories] = React.useState<any>([]);
+
+  const { data: productsData, isLoading: productsLoading, error: productsError } = useGetProductsQuery();
+  const { data: categoriesData, isLoading: categoriesLoading, error: categoriesError } = useGetCategoriesQuery();
+
+  useEffect(() => {
+    if (productsData && categoriesData) {
+      setProducts(
+        productsData.map((product: any) => ({
+          id: product._id,
+          name: product.name,
+          price: product.price + ' €',
+          category: product.category,
+          description: product.description
+        }))
+      );
+      setCategories(
+        categoriesData.map((category: any) => ({
+          id: category._id,
+          name: category.name,
+          description: category.description
+        }))
+      );
     }
-  ];
+  }, [productsData, categoriesData]);
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <Box
@@ -55,55 +64,60 @@ function Management() {
           Management of products
         </Typography>
       </Box>
+      {products.length > 0 && (
+        <Box
+          width="100%"
+          height="100%"
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '1rem',
+            width: '100%',
 
-      <Box
-        width="100%"
-        height="100%"
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: '1rem',
-          width: '100%',
+            marginTop: '1rem',
+            '@media (max-width: 1200px)': {
+              flexDirection: 'column'
+            }
+          }}
+        >
+          <Box width="100%">
+            <Typography
+              sx={{
+                textAlign: 'left',
+                width: '100%',
+                color: 'grey.400',
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                marginBottom: '1rem'
+              }}
+            >
+              Products
+            </Typography>
+            <DataTable title="Products" data={products} />
+          </Box>
+          <Box width="100%">
+            <Box onClick={handleOpen}>
+              <Typography
+                sx={{
+                  textAlign: 'left',
+                  width: '100%',
+                  color: 'grey.400',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  marginBottom: '1rem'
+                }}
+              >
+                Categories
+              </Typography>
+            </Box>
+            <DataTable title="Products" data={categories} />
+          </Box>
+        </Box>
+      )}
 
-          marginTop: '1rem',
-          '@media (max-width: 1200px)': {
-            flexDirection: 'column'
-          }
-        }}
-      >
-        <Box width="100%">
-          <Typography
-            sx={{
-              textAlign: 'left',
-              width: '100%',
-              color: 'grey.400',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              marginBottom: '1rem'
-            }}
-          >
-            Products
-          </Typography>
-          <DataTable title="Products" data={data} />
-        </Box>
-        <Box width="100%">
-          <Typography
-            sx={{
-              textAlign: 'left',
-              width: '100%',
-              color: 'grey.400',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              marginBottom: '1rem'
-            }}
-          >
-            Categories
-          </Typography>
-          <DataTable title="Products" data={data} />
-        </Box>
-      </Box>
+      <CreateCategoryModal open={open} handleClose={handleClose} />
     </Box>
   );
 }

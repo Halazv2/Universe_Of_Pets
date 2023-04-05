@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 // Set up multer middleware to handle file uploads
 const upload = multer({ storage: storage });
 
-ProductsRouter.get('/', [authJwt.verifyToken], ProductController.getProducts);
+ProductsRouter.get('/', ProductController.getProducts);
 ProductsRouter.post('/', [authJwt.verifyToken, upload.array('images', 5)], (req: any, res: any) => {
   const { name, description, price, category } = req.body;
   const images = req.files.map((file: any) => {

@@ -55,3 +55,13 @@ export interface GetTransactionsResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface getCategoryResponse {
+  id: string;
+  _id: string;
+  __v: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+}

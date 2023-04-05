@@ -46,8 +46,8 @@ function DataTable({ title, data }: porps) {
         >
           <TableRow>
             {headers.map((header, index) => (
-              <TableCell align="center">
-                <Typography variant="h6" fontSize="16px" key={index}>
+              <TableCell align="center" key={index}>
+                <Typography variant="h6" fontSize="16px">
                   {header}
                 </Typography>
               </TableCell>
@@ -61,7 +61,7 @@ function DataTable({ title, data }: porps) {
             border: 'none'
           }}
         >
-          {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any) => (
+          {/* {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any, index: number) => (
             <TableRow
               hover
               sx={{
@@ -71,11 +71,38 @@ function DataTable({ title, data }: porps) {
               }}
               role="checkbox"
               tabIndex={-1}
-              key={row.code}
+              key={index}
             >
               {headers.map((header, index) => (
                 <TableCell align="center" key={index}>
                   {row[header]}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))} */}
+          {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any, index: number) => (
+            <TableRow
+              hover
+              sx={{
+                backgroundColor: 'grey.500',
+                color: 'white',
+                border: 'none'
+              }}
+              role="checkbox"
+              tabIndex={-1}
+              key={index}
+            >
+              {headers.map((header, index) => (
+                <TableCell align="center" key={index}>
+                  {header === 'id' && typeof row[header] === 'string' ? (
+                    <Typography variant="h6" fontSize="16px">
+                      {row[header].slice(0, 5) + '...'}
+                    </Typography>
+                  ) : (
+                    <Typography variant="h6" fontSize="16px">
+                      {row[header]}
+                    </Typography>
+                  )}
                 </TableCell>
               ))}
             </TableRow>
