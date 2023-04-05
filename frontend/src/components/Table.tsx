@@ -16,7 +16,7 @@ type porps = {
 
 function DataTable({ title, data }: porps) {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(2);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -27,7 +27,7 @@ function DataTable({ title, data }: porps) {
     setPage(0);
   };
 
-  const headers = Object.keys(data[0]);
+  const headers = data.length > 0 ? Object.keys(data[0]) : [];
 
   return (
     <Paper
@@ -80,7 +80,35 @@ function DataTable({ title, data }: porps) {
               ))}
             </TableRow>
           ))} */}
-          {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any, index: number) => (
+          {data.length > 0 ? (
+            data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any, index: number) => (
+              <TableRow
+                hover
+                sx={{
+                  backgroundColor: 'grey.500',
+                  color: 'white',
+                  border: 'none'
+                }}
+                role="checkbox"
+                tabIndex={-1}
+                key={index}
+              >
+                {headers.map((header, index) => (
+                  <TableCell align="center" key={index}>
+                    {header === 'id' && typeof row[header] === 'string' ? (
+                      <Typography variant="h6" fontSize="16px">
+                        {row[header].slice(0, 5) + '...'}
+                      </Typography>
+                    ) : (
+                      <Typography variant="h6" fontSize="16px">
+                        {typeof row[header] === 'object' ? row[header].map((item: any) => item.name).join(', ') : row[header]}
+                      </Typography>
+                    )}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
             <TableRow
               hover
               sx={{
@@ -90,23 +118,14 @@ function DataTable({ title, data }: porps) {
               }}
               role="checkbox"
               tabIndex={-1}
-              key={index}
             >
-              {headers.map((header, index) => (
-                <TableCell align="center" key={index}>
-                  {header === 'id' && typeof row[header] === 'string' ? (
-                    <Typography variant="h6" fontSize="16px">
-                      {row[header].slice(0, 5) + '...'}
-                    </Typography>
-                  ) : (
-                    <Typography variant="h6" fontSize="16px">
-                      {row[header]}
-                    </Typography>
-                  )}
-                </TableCell>
-              ))}
+              <TableCell align="center" colSpan={headers.length}>
+                <Typography variant="h6" fontSize="16px">
+                  No data
+                </Typography>
+              </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
       <TablePagination
@@ -114,7 +133,7 @@ function DataTable({ title, data }: porps) {
           backgroundColor: 'grey.900',
           color: 'white'
         }}
-        rowsPerPageOptions={[2, 3, 100]}
+        rowsPerPageOptions={[10, 40, 100]}
         component="div"
         count={data.length}
         rowsPerPage={rowsPerPage}

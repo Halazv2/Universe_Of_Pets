@@ -25,6 +25,7 @@ function Management() {
 
   useEffect(() => {
     if (productsData && categoriesData) {
+      console.log(productsData);
       setProducts(
         productsData.map((product: any) => ({
           id: product._id,
@@ -89,7 +90,7 @@ function Management() {
             }
           }}
         >
-          <Box width="100%" onClick={handleOpenProduct}>
+          <Box width="100%">
             <Typography
               sx={{
                 textAlign: 'left',
@@ -97,28 +98,30 @@ function Management() {
                 color: 'grey.400',
                 fontSize: '1rem',
                 fontWeight: 'bold',
-                marginBottom: '1rem'
+                marginBottom: '1rem',
+                cursor: 'pointer'
               }}
+              onClick={handleOpenProduct}
             >
               Products
             </Typography>
             <DataTable title="Products" data={products} />
           </Box>
           <Box width="100%">
-            <Box onClick={handleOpenCategory}>
-              <Typography
-                sx={{
-                  textAlign: 'left',
-                  width: '100%',
-                  color: 'grey.400',
-                  fontSize: '1rem',
-                  fontWeight: 'bold',
-                  marginBottom: '1rem'
-                }}
-              >
-                Categories
-              </Typography>
-            </Box>
+            <Typography
+              onClick={handleOpenCategory}
+              sx={{
+                textAlign: 'left',
+                width: '100%',
+                color: 'grey.400',
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                marginBottom: '1rem'
+              }}
+            >
+              Categories
+            </Typography>
             <DataTable title="Products" data={categories} />
           </Box>
         </Box>

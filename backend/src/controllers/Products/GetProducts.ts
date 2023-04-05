@@ -1,11 +1,21 @@
 import { Request, RequestHandler } from 'express';
 import Joi from 'joi';
-import { IProduct } from '@/types/interfaces';
-import { Product } from '../../models';
+import { IProduct, ICategory } from '@/types/interfaces';
+import { Product, Category } from '../../models';
 
 const getProducts: RequestHandler = async (req: Request, res) => {
-  const products: IProduct[] = await Product.find();
-  res.status(200).json(products);
+  try {
+    const products: IProduct[] = await Product.find().populate({
+      path: 'category',
+      model: Category
+    });
+
+    return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Internal server error'
+    });
+  }
 };
 
 export default getProducts;
