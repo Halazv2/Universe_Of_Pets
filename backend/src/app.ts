@@ -38,7 +38,11 @@ app.use(
   })
 );
 
-app.use('/uploads', express.static(path.join(__dirname, '/public')));
+app.get('/uploads/:filename', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '../public/uploads/' + req.params.filename));
+});
+
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 app.use(router, express.static(path.join(__dirname, 'public')));
 
