@@ -10,11 +10,20 @@ const getProducts: RequestHandler = async (req: Request, res) => {
       model: Category
     });
 
-    return res.status(200).json(products);
+    return res.status(200).json(
+      products.map((product) => {
+        return {
+          id: product._id,
+          name: product.name,
+          description: product.description,
+          category: product.category,
+          image: product.images.map((image) => image.path),
+          price: product.price
+        };
+      })
+    );
   } catch (error) {
-    return res.status(500).json({
-      error: 'Internal server error'
-    });
+    return res.status(500).json({ error: error });
   }
 };
 

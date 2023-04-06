@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { Box, TextField, Typography } from '@mui/material';
 import { useTheme } from '@emotion/react';
-import DataTable from '@/components/Table';
-import { useGetProductsQuery } from '@/state/api';
 import TransitionsModal from '@/components/TransitionsModal';
 import CostumInput from '@/components/CostumInput';
 import CostumButton from '@/components/CostumButton';
@@ -54,7 +52,6 @@ function CreateProductModal({ open, handleClose, children }: props) {
       formData.append('category', values.categories.toString());
       image.forEach((img) => formData.append('images', img));
 
-      console.log(formData);
 
       await mutateAsync(formData)
         .unwrap()

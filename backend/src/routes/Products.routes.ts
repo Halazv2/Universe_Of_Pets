@@ -10,7 +10,6 @@ import path from 'path';
 
 const ProductsRouter = Router();
 
-// Set up multer storage engine to store uploaded files in public/uploads folder
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/uploads/');
@@ -20,7 +19,6 @@ const storage = multer.diskStorage({
   }
 });
 
-// Set up multer middleware to handle file uploads
 const upload = multer({ storage: storage });
 
 ProductsRouter.get('/', ProductController.getProducts);
@@ -49,5 +47,8 @@ ProductsRouter.post('/', [upload.array('images', 5)], (req: any, res: any) => {
       res.status(500).json(err);
     });
 });
+
+// dlete product
+ProductsRouter.delete('/:id', ProductController.deleteProduct);
 
 export default ProductsRouter;

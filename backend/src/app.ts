@@ -38,6 +38,8 @@ app.use(
   })
 );
 
+app.use('/uploads', express.static(path.join(__dirname, '/public')));
+
 app.use(router, express.static(path.join(__dirname, 'public')));
 
 app.use((err: { status: any; message: any }, req: Request, res: Response, next: NextFunction) => {
