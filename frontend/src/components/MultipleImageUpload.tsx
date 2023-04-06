@@ -27,18 +27,12 @@ function ImageUploader({ image, setImage }: props) {
       ).then((images) => {
         setImages((prev: any) => [...prev, ...images]);
 
-        // set file name and contentType in object
-        console.log(files);
-        const fileName = files[0].name;
-        const contentType = files[0].type;
+        console.log(files[0]);
+        const filename = files[0].name;
+        const mimetype = files[0].type;
 
-        // create a new object with file name and content type
-        const fileObject = {
-          fileName,
-          contentType
-        };
+        const fileObject = [files[0]];
 
-        // set file object in state
         setImage((prev: any) => [...prev, fileObject]);
       });
     }
@@ -78,8 +72,8 @@ function ImageUploader({ image, setImage }: props) {
           overflowX: 'scroll'
         }}
       >
-        {image &&
-          image.map((img: string | undefined, index: React.Key | null | undefined) => (
+        {images &&
+          images.map((img: string | undefined, index: React.Key | null | undefined) => (
             <Box
               key={index}
               sx={{
