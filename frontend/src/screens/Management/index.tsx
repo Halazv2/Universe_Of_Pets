@@ -5,6 +5,7 @@ import { useTheme } from '@emotion/react';
 import { Link } from 'react-router-dom';
 import Switcher from './Switcher';
 import Products from './Product/Products';
+import ManagementUsers from './Users';
 
 function Management() {
   const [switcher, setSwitcher] = useState('products');
@@ -23,13 +24,7 @@ function Management() {
           marginTop: '1rem'
         }}
       >
-        {switcher === 'products' ? (
-          <Products />
-        ) : (
-          <Typography variant="h4" fontSize="16px">
-            Management of users
-          </Typography>
-        )}
+        {switcher === 'products' ? <Products /> : <ManagementUsers />}
       </Box>
     </Box>
   );

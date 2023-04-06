@@ -12,11 +12,13 @@ import { CardHeader, Typography } from '@mui/material';
 type porps = {
   title: string;
   data: any;
+  rowsPerPage?: number;
+  setRowsPerPage?: any;
 };
 
 function DataTable({ title, data }: porps) {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -61,25 +63,6 @@ function DataTable({ title, data }: porps) {
             border: 'none'
           }}
         >
-          {/* {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any, index: number) => (
-            <TableRow
-              hover
-              sx={{
-                backgroundColor: 'grey.500',
-                color: 'white',
-                border: 'none'
-              }}
-              role="checkbox"
-              tabIndex={-1}
-              key={index}
-            >
-              {headers.map((header, index) => (
-                <TableCell align="center" key={index}>
-                  {row[header]}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))} */}
           {data.length > 0 ? (
             data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any, index: number) => (
               <TableRow
@@ -101,7 +84,11 @@ function DataTable({ title, data }: porps) {
                       </Typography>
                     ) : (
                       <Typography variant="h6" fontSize="16px">
-                        {typeof row[header] === 'object' ? row[header].map((item: any) => item.name).join(', ') : row[header]}
+                        {typeof row[header] === 'object'
+                          ? row[header].map((item: any) => item.name).join(', ')
+                          : header === 'description'
+                          ? row[header].slice(0, 20) + '...'
+                          : row[header]}
                       </Typography>
                     )}
                   </TableCell>

@@ -7,6 +7,7 @@ import TransitionsModal from '@/components/TransitionsModal';
 import CostumInput from '@/components/CostumInput';
 import CostumButton from '@/components/CostumButton';
 import { useSetCategoryMutation } from '@/state/api';
+import ImageUploader from '@/components/MultipleImageUpload';
 
 type props = {
   open: boolean;

@@ -9,14 +9,6 @@ import CreateProductModal from './CreateProductModal';
 
 function Management() {
   const theme = useTheme();
-  // setProducts(
-  //   products.map((product: any) => ({
-  //     name: product.name,
-  //     price: product.price + ' €',
-  //     category: product.category,
-  //     description: product.description
-  //   }))
-  // );
   const [products, setProducts] = React.useState<any>([]);
   const [categories, setCategories] = React.useState<any>([]);
 
@@ -123,6 +115,7 @@ function Management() {
               Categories
             </Typography>
             <DataTable title="Products" data={categories} />
+    
           </Box>
         </Box>
       )}

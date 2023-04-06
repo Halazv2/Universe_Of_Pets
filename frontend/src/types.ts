@@ -65,3 +65,27 @@ export interface getCategoryResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface GetOrdersResponse {
+  id: string;
+  _id: string;
+  __v: string;
+  user: Array<string>;
+  products: Array<string>;
+  total: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface GetUsersAndOrdersResponse {
+  id: string;
+  _id: string;
+  __v: string;
+  user: Array<string>;
+  orders?: Array<string>;
+  total: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}

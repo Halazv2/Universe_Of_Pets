@@ -7,7 +7,7 @@ const schema = new Schema<IOrder>(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'clients',
+      ref: 'Clients',
       required: true
     },
     products: [

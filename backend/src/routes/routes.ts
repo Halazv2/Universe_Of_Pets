@@ -23,7 +23,7 @@ router.use('/api/client', ClientRouter);
 router.use('/api/admin', AdminRouter);
 router.use('/api/products', ProductsRouter);
 router.use('/api/category', CategoryRouter);
-router.use('/api/order', OrderRouter);
+router.use('/api/orders', OrderRouter);
 router.use('/api/statistics', statisticsRouter);
 
 if (process.env.NODE_ENV === 'development') {

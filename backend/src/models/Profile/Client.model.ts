@@ -16,4 +16,4 @@ const schema = new Schema<IAccount>(
 
 const Clients = model<IAccount, IAccountModel>('Clients', schema);
 
-export default Clients;
+export { Clients };

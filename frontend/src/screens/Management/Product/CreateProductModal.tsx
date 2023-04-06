@@ -9,6 +9,7 @@ import CostumButton from '@/components/CostumButton';
 import { useSetProductsMutation } from '@/state/api';
 import Autocomplete from '@mui/material/Autocomplete';
 import CloseIcon from '@mui/icons-material/Close';
+import ImageUploader from '@/components/MultipleImageUpload';
 
 type props = {
   open: boolean;
@@ -25,6 +26,7 @@ type values = {
 
 function CreateProductModal({ open, handleClose, children }: props) {
   const theme = useTheme();
+  const [image, setImage] = React.useState<Array<string>>([]);
 
   const [values, setValues] = React.useState<values>({ name: '', description: '', price: 0, categories: [] });
   const [errors, setErrors] = React.useState({ name: false, description: false, price: false, category: false });
@@ -44,12 +46,14 @@ function CreateProductModal({ open, handleClose, children }: props) {
     } else if (values.categories.length === 0) {
       setErrors({ ...errors, category: true });
     } else {
+      // console.log(image);
+      // return;
       const res = await mutateAsync({
         name: values.name,
         description: values.description,
         price: values.price,
         category: values.categories,
-        images: []
+        images: image
       });
       if (res) {
         handleClose();
@@ -157,6 +161,7 @@ function CreateProductModal({ open, handleClose, children }: props) {
               sx={{ marginBottom: '1rem' }}
               renderInput={(params) => <TextField {...params} label="Category" />}
             />
+            <ImageUploader image={image} setImage={setImage} />
 
             <CostumButton text="submit" action={onSubmit} />
           </Box>

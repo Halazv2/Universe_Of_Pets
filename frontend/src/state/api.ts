@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { GetKpisResponse, GetProductsResponse, getCategoryResponse } from '../types';
+import { GetKpisResponse, GetOrdersResponse, GetProductsResponse, getCategoryResponse } from '../types';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
-  tagTypes: ['Kpi', 'Products', 'Category'],
+  tagTypes: ['Kpi', 'Products', 'Category', 'Orders'],
   endpoints: (build) => ({
     getKpis: build.query<Array<GetKpisResponse>, void>({
       query: () => 'statistics/KPI',
@@ -25,24 +25,23 @@ export const api = createApi({
       query: () => 'category',
       providesTags: ['Category']
     }),
-    setProducts: build.mutation<
-      GetProductsResponse,
-      {
-        name: string;
-        description: string;
-        price: number;
-        category: Array<string>;
-        images: Array<string>;
-      }
-    >({
+    setProducts: build.mutation<GetProductsResponse, FormData>({
       query: (product) => ({
         url: 'products',
         method: 'POST',
         body: { ...product }
       }),
       invalidatesTags: ['Products']
+    }),
+    getOrders: build.query<Array<GetOrdersResponse>, void>({
+      query: () => 'orders',
+      providesTags: ['Orders']
+    }),
+    allUsers: build.query<Array<GetOrdersResponse>, void>({
+      query: () => 'orders/allUsers',
+      providesTags: ['Orders']
     })
   })
 });
 
-export const { useGetKpisQuery, useGetProductsQuery, useSetCategoryMutation, useGetCategoriesQuery, useSetProductsMutation } = api;
+export const { useGetKpisQuery, useGetProductsQuery, useSetCategoryMutation, useGetCategoriesQuery, useSetProductsMutation, useGetOrdersQuery, useAllUsersQuery } = api;
