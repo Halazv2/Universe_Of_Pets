@@ -27,13 +27,7 @@ function ImageUploader({ image, setImage }: props) {
       ).then((images) => {
         setImages((prev: any) => [...prev, ...images]);
 
-        console.log(files[0]);
-        const filename = files[0].name;
-        const mimetype = files[0].type;
-
-        const fileObject = [files[0]];
-
-        setImage((prev: any) => [...prev, fileObject]);
+        setImage((prev: any) => [...prev, ...images]);
       });
     }
   };

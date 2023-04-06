@@ -46,18 +46,26 @@ function CreateProductModal({ open, handleClose, children }: props) {
     } else if (values.categories.length === 0) {
       setErrors({ ...errors, category: true });
     } else {
-      // console.log(image);
       // return;
-      const res = await mutateAsync({
-        name: values.name,
-        description: values.description,
-        price: values.price,
-        category: values.categories,
-        images: image
-      });
-      if (res) {
-        handleClose();
-      }
+      const formData = new FormData();
+      formData.append('name', values.name);
+      formData.append('description', values.description);
+      formData.append('price', values.price.toString());
+      formData.append('category', values.categories.toString());
+      image.forEach((img) => formData.append('images', img));
+
+      console.log(formData);
+
+      await mutateAsync(formData)
+        .unwrap()
+        .then((product) => {
+          console.log('Product created:', product);
+        })
+        .catch((error) => {
+          console.error('Failed to create product:', error);
+        });
+
+      handleClose();
     }
   };
 
