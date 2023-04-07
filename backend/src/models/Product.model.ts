@@ -20,7 +20,9 @@ const schema = new Schema<IProduct>(
         type: Schema.Types.ObjectId,
         ref: 'categories'
       }
-    ]
+    ],
+    quantity: { type: Number, required: true },
+    options: { type: [String], required: true }
   },
   { timestamps: true }
 );
