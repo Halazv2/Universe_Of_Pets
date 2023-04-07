@@ -13,6 +13,8 @@ type props = {
   open: boolean;
   handleClose: () => void;
   children?: React.ReactNode;
+  type: boolean;
+  productId?: any;
 };
 
 type values = {
@@ -22,17 +24,22 @@ type values = {
   categories: Array<string>;
 };
 
-function CreateProductModal({ open, handleClose, children }: props) {
+function CreateProductModal({ open, handleClose, children, type, productId }: props) {
   const theme = useTheme();
   const [image, setImage] = React.useState<Array<string>>([]);
 
   const [values, setValues] = React.useState<values>({ name: '', description: '', price: 0, categories: [] });
   const [errors, setErrors] = React.useState({ name: false, description: false, price: false, category: false });
+  const [ProducData , setProducData] = React.useState<any>();
 
   const handleChange = (prop: any) => (event: any) => {
     setValues({ ...values, [prop]: event.target.value });
   };
   const [mutateAsync, { isLoading, error }] = useSetProductsMutation();
+
+  useEffect(() => {
+    setValues({ ...values, name: ProducData?.name, description: ProducData?.description, price: ProducData?.price, categories: ProducData?.category });
+  }, [ProducData]);
 
   const onSubmit = async () => {
     if (values.name === '') {
@@ -54,6 +61,7 @@ function CreateProductModal({ open, handleClose, children }: props) {
       console.log(image);
       // console.log(formData);
       // return;
+      if(type){
       await mutateAsync(formData)
         .unwrap()
         .then((product) => {
@@ -62,6 +70,20 @@ function CreateProductModal({ open, handleClose, children }: props) {
         .catch((error) => {
           console.error('Failed to create product:', error);
         });
+      }else{
+        fetch(`http://127.0.0.1:4000/api/products/${productId}`, {
+          method: 'PUT',
+          body: formData
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            console.log('Success:', result);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      }
+
 
       handleClose();
     }
@@ -75,7 +97,22 @@ function CreateProductModal({ open, handleClose, children }: props) {
         const unique = result.filter((v: any, i: any, a: any) => a.findIndex((t: any) => t.name === v.name) === i);
         setdata(unique);
       });
+
+    if (productId) {
+      console.log(productId)
+      fetch(`http://127.0.0.1:4000/api/products/byId/${productId}`)
+        .then((response) => response.json())
+        .then((result) => {
+          setProducData(result[0]);
+        }
+      );
+    }
   }, []);
+
+  const handleCloseModal = () => {
+    setProducData(undefined);
+    handleClose();
+  };
 
   return (
     <Box
@@ -89,7 +126,7 @@ function CreateProductModal({ open, handleClose, children }: props) {
         marginTop: '1rem'
       }}
     >
-      <TransitionsModal open={open} handleClose={handleClose}>
+      <TransitionsModal open={open} handleClose={handleCloseModal}>
         <Box
           sx={{
             position: 'relative',
@@ -128,7 +165,9 @@ function CreateProductModal({ open, handleClose, children }: props) {
               marginTop: '1.5rem'
             }}
           >
-            Create Product
+            {
+              (type)? 'Create Product' : 'Edit Product '
+            }
           </Typography>
         </Box>
 

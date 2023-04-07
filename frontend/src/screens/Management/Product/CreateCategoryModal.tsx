@@ -13,6 +13,8 @@ type props = {
   open: boolean;
   handleClose: () => void;
   children?: React.ReactNode;
+  type: boolean;
+  productId?: any;
 };
 
 type values = {
@@ -20,7 +22,7 @@ type values = {
   description: string;
 };
 
-function CreateCategoryModal({ open, handleClose, children }: props) {
+function CreateCategoryModal({ open, handleClose, children, type, productId }: props) {
   const theme = useTheme();
 
   const [values, setValues] = React.useState<values>({ name: '', description: '' });
@@ -37,11 +39,32 @@ function CreateCategoryModal({ open, handleClose, children }: props) {
     } else if (values.description === '') {
       setErrors({ ...errors, description: true });
     } else {
+
+      if(type){
       await mutateAsync({
         name: values.name,
         description: values.description
       });
       handleClose();
+      }else{
+        fetch(`http://127.0.0.1:4000/api/category/${productId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: values.name,
+            description: values.description
+          })
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            handleClose();
+          }
+        );
+      }
+
     }
   };
 
@@ -75,7 +98,7 @@ function CreateCategoryModal({ open, handleClose, children }: props) {
               marginTop: '1.5rem'
             }}
           >
-            Create category
+            { (type) ? 'Create Category' : 'Edit Category'}
           </Typography>
         </Box>
 
