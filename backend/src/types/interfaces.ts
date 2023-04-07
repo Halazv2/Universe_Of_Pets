@@ -16,6 +16,8 @@ export interface IOrder extends Document {
   products: IProduct[];
   total: number;
   status: 'pending' | 'cancelled' | 'completed';
+  option: string;
+  quantity: number;
   createdAt: Date;
   updatedAt: Date;
 }

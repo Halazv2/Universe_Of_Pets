@@ -23,21 +23,21 @@ const upload = multer({ storage: storage });
 
 ProductsRouter.get('/', ProductController.getProducts);
 ProductsRouter.post('/', [upload.array('images', 5)], (req: any, res: any) => {
-  const { name, description, price, category } = req.body;
+  const { name, description, price, category, quantity, options } = req.body;
   const images = req.files?.map((file: any) => {
     return {
       path: file.filename,
       contentType: file.mimetype
     };
   });
-  console.log(req.files);
-  // return;
   const newProduct = new Products({
     name,
     description,
     price,
     images,
-    category
+    category,
+    options,
+    quantity
   });
   newProduct
     .save()

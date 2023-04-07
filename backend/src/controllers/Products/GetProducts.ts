@@ -18,7 +18,9 @@ const getProducts: RequestHandler = async (req: Request, res) => {
           description: product.description,
           category: product.category,
           image: product.images.map((image) => image.path),
-          price: product.price
+          price: product.price,
+          quantity: product.quantity,
+          options: product.options
         };
       })
     );

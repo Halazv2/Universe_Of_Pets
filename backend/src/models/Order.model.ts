@@ -25,6 +25,14 @@ const schema = new Schema<IOrder>(
       type: String,
       enum: ['pending', 'cancelled', 'completed'],
       default: 'pending'
+    },
+    option: {
+      type: String,
+      required: true
+    },
+    quantity: {
+      type: Number,
+      required: true
     }
   },
   { timestamps: true }
