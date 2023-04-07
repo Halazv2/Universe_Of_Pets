@@ -51,5 +51,30 @@ ProductsRouter.post('/', [upload.array('images', 5)], (req: any, res: any) => {
 
 // dlete product
 ProductsRouter.delete('/:id', ProductController.deleteProduct);
+ProductsRouter.get('/byId/:id', ProductController.getProductById);
+ProductsRouter.put('/:id',[upload.array('images', 5)], (req: any, res: any) => {
+  const { name, description, price, category, quantity, options } = req.body;
+  const images = req.files?.map((file: any) => {
+    return {
+      path: file.filename,
+      contentType: file.mimetype
+      };
+      });
+      Products.findByIdAndUpdate(req.params.id, {
+        name,
+        description,
+        price,
+        images,
+        category,
+        options,
+        quantity
+      })
+      .then((product: any) => {
+        res.status(200).json(product);
+      })
+      .catch((err: any) => {
+        res.status(500).json(err);
+      });
+    });
 
 export default ProductsRouter;

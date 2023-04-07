@@ -7,16 +7,18 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { CardHeader, Typography } from '@mui/material';
+import { Button, CardHeader, Typography } from '@mui/material';
 
 type porps = {
   title: string;
   data: any;
   rowsPerPage?: number;
   setRowsPerPage?: any;
+  edit?: any;
+  destroy?: any;
 };
 
-function DataTable({ title, data }: porps) {
+function DataTable({ title, data , edit, destroy }: porps) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -88,7 +90,17 @@ function DataTable({ title, data }: porps) {
                           ? row[header].map((item: any) => item.name).join(', ')
                           : header === 'description'
                           ? row[header].slice(0, 20) + '...'
-                          : row[header]}
+                          : header === "operation"
+                          ? (<>
+                              <Button variant="contained" color="primary"
+                                onClick={() => edit(row[header])}
+                              >Edit</Button>
+                              <Button variant="contained" color="error" 
+                              onClick={() => destroy(row[header])}
+                              >Delete</Button>
+                            </>)
+                          : row[header]
+                        }
                       </Typography>
                     )}
                   </TableCell>
