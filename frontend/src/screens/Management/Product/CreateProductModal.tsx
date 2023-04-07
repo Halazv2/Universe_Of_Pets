@@ -49,10 +49,11 @@ function CreateProductModal({ open, handleClose, children }: props) {
       formData.append('name', values.name);
       formData.append('description', values.description);
       formData.append('price', values.price.toString());
-      formData.append('category', values.categories.toString());
+      values.categories.forEach((category) => formData.append('category', category));
       image.forEach((img) => formData.append('images', img));
-
-
+      console.log(image);
+      // console.log(formData);
+      // return;
       await mutateAsync(formData)
         .unwrap()
         .then((product) => {

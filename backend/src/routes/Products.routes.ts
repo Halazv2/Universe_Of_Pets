@@ -30,7 +30,8 @@ ProductsRouter.post('/', [upload.array('images', 5)], (req: any, res: any) => {
       contentType: file.mimetype
     };
   });
-  console.log(images);
+  console.log(req.files);
+  // return;
   const newProduct = new Products({
     name,
     description,

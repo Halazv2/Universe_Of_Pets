@@ -25,9 +25,10 @@ function ImageUploader({ image, setImage }: props) {
           });
         })
       ).then((images) => {
+        setImage((prev: any) => [...prev, event.target.files[0]]);
         setImages((prev: any) => [...prev, ...images]);
 
-        setImage((prev: any) => [...prev, ...images]);
+        console.log(image);
       });
     }
   };
