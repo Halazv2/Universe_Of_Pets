@@ -6,17 +6,9 @@ import authJwt from '../middlewares/authJWT';
 
 const ClientRouter = Router();
 
-ClientRouter.post(
-  '/signup',
-  [verifySignUp.checkDuplicateEmail],
-  authController.Sign_up
-);
+ClientRouter.post('/signup', [verifySignUp.checkDuplicateEmail], authController.Sign_up);
 ClientRouter.post('/login', authController.Login);
 
-ClientRouter.get(
-  '/products',
-  [authJwt.verifyToken],
-  ProductController.getProducts
-);
+ClientRouter.get('/products', [authJwt.verifyToken], ProductController.getProducts);
 
 export default ClientRouter;

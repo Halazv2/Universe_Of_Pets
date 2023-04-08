@@ -18,7 +18,6 @@ function Management() {
 
   useEffect(() => {
     if (productsData && categoriesData) {
-      console.log(productsData);
       setProducts(
         productsData.map((product: any) => ({
           id: product.id,
