@@ -9,6 +9,7 @@ import ProductsRouter from './Products.routes';
 import CategoryRouter from './Category.routes';
 import OrderRouter from './Order.routes';
 import statisticsRouter from './Statistics.routes';
+import CartRouter from './Cart.routes';
 
 const swaggerUiOptions = {
   customCss: '.swagger-ui .topbar { display: none }',
@@ -25,6 +26,7 @@ router.use('/api/products', ProductsRouter);
 router.use('/api/category', CategoryRouter);
 router.use('/api/orders', OrderRouter);
 router.use('/api/statistics', statisticsRouter);
+router.use('/api/cart', CartRouter);
 
 if (process.env.NODE_ENV === 'development') {
   router.use('/dev/api-docs', swaggerUi.serve);

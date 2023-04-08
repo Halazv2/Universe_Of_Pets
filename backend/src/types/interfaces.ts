@@ -23,8 +23,10 @@ export interface IOrder extends Document {
 }
 export interface ICart extends Document {
   _id: string;
+  user: IAccount;
   products: IProduct[];
-  total: number;
+  quantity: number;
+  option: string;
   createdAt: Date;
   updatedAt: Date;
 }
