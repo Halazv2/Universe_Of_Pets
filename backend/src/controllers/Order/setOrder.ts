@@ -1,18 +1,20 @@
 import { Request, RequestHandler } from 'express';
 import Joi from 'joi';
 import { IOrder } from '@/types/interfaces';
-import { Order, Product } from '../../models';
+import { Order, Product, Cart } from '../../models';
 
 export const addOrderSchema = Joi.object().keys({
   user: Joi.string().required(),
   products: Joi.array().required(),
+  quantity: Joi.number().required(),
+  option: Joi.string(),
   total: Joi.number().required()
 });
 
 const setOrder: RequestHandler = async (req: Request<{}, {}, IOrder>, res) => {
   try {
-    const { user, products, quantity, option } = req.body;
-    // check product quantity in stock
+    const { user, products, quantity, option, total, addressLineOne, addressLineTwo, phone, city, country } = req.body;
+    console.log(req.body);
     const productsInStock = await Product.find({ _id: { $in: products } });
 
     const productsOutOfStock = productsInStock.filter((product) => product.quantity === 0);
@@ -21,25 +23,21 @@ const setOrder: RequestHandler = async (req: Request<{}, {}, IOrder>, res) => {
       return res.status(400).json({ error: 'Some products are out of stock' });
     }
 
-    // calculate total price
-    /* `const total = productsInStock.reduce((acc, product) => acc + product.price, 0);` is calculating the
-total price of all the products in the order. It uses the `reduce()` method to iterate over the
-`productsInStock` array and accumulate the price of each product into the `acc` variable, starting
-from an initial value of `0`. The final result is the total price of all the products in the order,
-which is stored in the `total` variable. */
-    const total = productsInStock.reduce((acc, product) => acc + product.price, 0);
-
-    // if option is not selected, take the first option from the product
+    // const total = productsInStock.reduce((acc, product) => acc + product.price, 0);
 
     const optionSelected = option || productsInStock[0].options[0];
 
-    // create order
     const order = new Order({
       user,
       products,
       quantity,
       option: optionSelected,
-      total
+      total,
+      addressLineOne,
+      addressLineTwo,
+      phone,
+      city,
+      country
     });
 
     // update product quantity

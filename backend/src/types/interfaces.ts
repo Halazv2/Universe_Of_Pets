@@ -17,6 +17,11 @@ export interface IOrder extends Document {
   total: number;
   status: 'pending' | 'cancelled' | 'completed';
   option: string;
+  addressLineOne: string;
+  addressLineTwo: string;
+  phone: string;
+  city: string;
+  country: string;
   quantity: number;
   createdAt: Date;
   updatedAt: Date;

@@ -33,7 +33,27 @@ const schema = new Schema<IOrder>(
     quantity: {
       type: Number,
       required: true
-    }
+    },
+    addressLineOne: {
+      type: String,
+      required: true
+    },
+    addressLineTwo: {
+      type: String,
+      required: false
+    },
+    phone: {
+      type: String,
+      required: true
+    },
+    city: {
+      type: String,
+      required: true
+    },
+    country: {
+      type: String,
+      required: true
+    },
   },
   { timestamps: true }
 );
