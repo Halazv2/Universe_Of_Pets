@@ -40,15 +40,16 @@ const setOrder: RequestHandler = async (req: Request<{}, {}, IOrder>, res) => {
       country
     });
 
-    // update product quantity
-    await Promise.all(
-      productsInStock.map(async (product) => {
-        product.quantity = product.quantity - quantity;
-        await product.save();
-      })
-    );
-
-    await order.save();
+    if (productsInStock.length > 0) {
+      // update product quantity
+      await Promise.all(
+        productsInStock.map(async (product) => {
+          product.quantity = product.quantity - quantity;
+          await product.save();
+        })
+      );
+      await order.save();
+    }
 
     res.send({ order });
   } catch (error) {
