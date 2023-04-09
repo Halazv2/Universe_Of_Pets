@@ -13,6 +13,25 @@ export const api = createApi({
       query: () => 'products',
       providesTags: ['Products']
     }),
+    getProduct: build.query<GetProductsResponse, string>({
+      query: (id) => `products/byId/${id}`,
+      providesTags: ['Products']
+    }),
+    updateProduct: build.mutation<GetProductsResponse, FormData>({
+      query: (product) => ({
+        url: `products/${product.get('id')}`,
+        method: 'PUT',
+        body: product
+      }),
+      invalidatesTags: ['Products']
+    }),
+    deleteProduct: build.mutation<GetProductsResponse, string>({
+      query: (id) => ({
+        url: `products/${id}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['Products']
+    }),
     setCategory: build.mutation<getCategoryResponse, { name: string; description: string }>({
       query: (category) => ({
         url: 'category',
@@ -44,4 +63,15 @@ export const api = createApi({
   })
 });
 
-export const { useGetKpisQuery, useGetProductsQuery, useSetCategoryMutation, useGetCategoriesQuery, useSetProductsMutation, useGetOrdersQuery, useAllUsersQuery } = api;
+export const {
+  useGetKpisQuery,
+  useGetProductsQuery,
+  useSetCategoryMutation,
+  useGetCategoriesQuery,
+  useSetProductsMutation,
+  useGetProductQuery,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
+  useGetOrdersQuery,
+  useAllUsersQuery
+} = api;

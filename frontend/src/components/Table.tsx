@@ -18,7 +18,7 @@ type porps = {
   destroy?: any;
 };
 
-function DataTable({ title, data , edit, destroy }: porps) {
+function DataTable({ title, data, edit, destroy }: porps) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -85,22 +85,25 @@ function DataTable({ title, data , edit, destroy }: porps) {
                         {row[header].slice(0, 5) + '...'}
                       </Typography>
                     ) : (
-                      <Typography variant="h6" fontSize="16px">
-                        {typeof row[header] === 'object'
-                          ? row[header].map((item: any) => item.name).join(', ')
-                          : header === 'description'
-                          ? row[header].slice(0, 20) + '...'
-                          : header === "operation"
-                          ? (<>
-                              <Button variant="contained" color="primary"
-                                onClick={() => edit(row[header])}
-                              >Edit</Button>
-                              <Button variant="contained" color="error" 
-                              onClick={() => destroy(row[header])}
-                              >Delete</Button>
-                            </>)
-                          : row[header]
-                        }
+                      <Typography variant="h6" fontSize="16px" style={{ 
+                        display: 'flex',
+                       }}>
+                        {typeof row[header] === 'object' ? (
+                          row[header].map((item: any) => item.name).join(', ')
+                        ) : header === 'description' ? (
+                          row[header].slice(0, 20) + '...'
+                        ) : header === 'operation' ? (
+                          <>
+                            <Button variant="contained" color="primary" onClick={() => edit(row[header])}>
+                              E
+                            </Button>
+                            <Button variant="contained" color="error" style={{ marginLeft: '10px' }} onClick={() => destroy(row[header])}>
+                              D
+                            </Button>
+                          </>
+                        ) : (
+                          row[header]
+                        )}
                       </Typography>
                     )}
                   </TableCell>

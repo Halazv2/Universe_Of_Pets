@@ -4,7 +4,7 @@ import { useTheme } from '@emotion/react';
 import TransitionsModal from '@/components/TransitionsModal';
 import CostumInput from '@/components/CostumInput';
 import CostumButton from '@/components/CostumButton';
-import { useSetProductsMutation } from '@/state/api';
+import { useGetProductQuery, useUpdateProductMutation } from '@/state/api';
 import Autocomplete from '@mui/material/Autocomplete';
 import CloseIcon from '@mui/icons-material/Close';
 import ImageUploader from '@/components/MultipleImageUpload';
@@ -12,7 +12,7 @@ import ImageUploader from '@/components/MultipleImageUpload';
 type props = {
   open: boolean;
   handleClose: () => void;
-  children?: React.ReactNode;
+  productId?: any;
 };
 
 type values = {
@@ -21,32 +21,45 @@ type values = {
   price: number;
   categories: Array<string>;
   quantity: number;
-  // options: Array<string>;
 };
 
-function CreateProductModal({ open, handleClose }: props) {
+function UpadeteProductModal({ open, handleClose, productId }: props) {
   const theme = useTheme();
   const [image, setImage] = React.useState<Array<string>>([]);
 
   const [values, setValues] = React.useState<values>({ name: '', description: '', price: 0, categories: [], quantity: 0 });
   const [errors, setErrors] = React.useState({ name: false, description: false, price: false, category: false, quantity: false });
-  const [ProducData, setProducData] = React.useState<any>();
 
   const handleChange = (prop: any) => (event: any) => {
     setValues({ ...values, [prop]: event.target.value });
   };
-  const [mutateAsync, { isLoading, error }] = useSetProductsMutation();
+
+  const [mutateAsync, { isLoading: isMutating, error: mutateError }] = useUpdateProductMutation();
+  const { data, isLoading, error } = useGetProductQuery(productId);
 
   useEffect(() => {
+    console.log(productId);
     setValues({
       ...values,
-      name: ProducData?.name,
-      description: ProducData?.description,
-      price: ProducData?.price,
-      categories: ProducData?.category,
-      quantity: ProducData?.quantity
+      name: data?.name,
+      description: data?.description,
+      price: data?.price,
+      categories: data?.category,
+      quantity: data?.quantity
     });
-  }, [ProducData]);
+
+    setImage(data?.images);
+    setTimeout(() => {
+      console.log(data);
+    }, 1000);
+
+    fetch('http://127.0.0.1:4000/api/category')
+      .then((response) => response.json())
+      .then((result) => {
+        const unique = result.filter((v: any, i: any, a: any) => a.findIndex((t: any) => t.name === v.name) === i);
+        setCategory(unique);
+      });
+  }, []);
 
   const onSubmit = async () => {
     if (values.name === '') {
@@ -65,35 +78,28 @@ function CreateProductModal({ open, handleClose }: props) {
       formData.append('price', values.price.toString());
       values.categories.forEach((category) => formData.append('category', category));
       formData.append('quantity', values.quantity.toString());
-      // values.options.forEach((option) => formData.append('options', option));
+      //   values.options.forEach((option) => formData.append('options', option));
       image.forEach((img) => formData.append('images', img));
       console.log(image);
-      await mutateAsync(formData)
+
+      await mutateAsync({ id: productId, data: formData })
         .unwrap()
-        .then((product) => {
-          console.log('Product created:', product);
+        .then((res) => {
+          console.log(res);
         })
-        .catch((error) => {
-          console.error('Failed to create product:', error);
+        .catch((err) => {
+          console.log(err);
         });
 
       handleClose();
     }
   };
 
-  let [data, setdata] = React.useState<any>([]);
-  useEffect(() => {
-    fetch('http://127.0.0.1:4000/api/category')
-      .then((response) => response.json())
-      .then((result) => {
-        const unique = result.filter((v: any, i: any, a: any) => a.findIndex((t: any) => t.name === v.name) === i);
-        setdata(unique);
-      });
-  }, []);
+  let [category, setCategory] = React.useState<any>([]);
 
   const handleCloseModal = () => {
-    setProducData(undefined);
     handleClose();
+    setValues({ name: '', description: '', price: 0, categories: [], quantity: 0 });
   };
 
   return (
@@ -147,7 +153,7 @@ function CreateProductModal({ open, handleClose }: props) {
               marginTop: '1.5rem'
             }}
           >
-            Create Product
+            Edit Product
           </Typography>
         </Box>
 
@@ -162,7 +168,7 @@ function CreateProductModal({ open, handleClose }: props) {
               padding: '1.5rem'
             }}
           >
-            <CostumInput label="Name" placeholder="Name" error={errors.name} message="Error message" value={values.name} onChange={handleChange('name')} />
+            <CostumInput label="Name" placeholder="Name" error={errors.name} message="Error message" value={values?.name} onChange={handleChange('name')} />
             <CostumInput
               label="Description"
               placeholder="Description"
@@ -171,13 +177,13 @@ function CreateProductModal({ open, handleClose }: props) {
               value={values.description}
               onChange={handleChange('description')}
             />
-            <CostumInput label="Price" placeholder="Price" error={errors.price} message="Error message" value={values.price} onChange={handleChange('price')} />
-            <CostumInput label="Quantity" placeholder="Quantity" error={errors.quantity} message="Error message" value={values.quantity} onChange={handleChange('quantity')} />
+            <CostumInput label="Price" placeholder="Price" error={errors.price} message="Error message" value={values?.price} onChange={handleChange('price')} />
+            <CostumInput label="Quantity" placeholder="Quantity" error={errors.quantity} message="Error message" value={values?.quantity} onChange={handleChange('quantity')} />
 
             <Autocomplete
               multiple
               id="combo-box-demo"
-              options={data}
+              options={category}
               getOptionLabel={(option) => {
                 return option?.name;
               }}
@@ -199,4 +205,4 @@ function CreateProductModal({ open, handleClose }: props) {
   );
 }
 
-export default CreateProductModal;
+export default UpadeteProductModal;

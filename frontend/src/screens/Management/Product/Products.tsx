@@ -7,6 +7,7 @@ import TransitionsModal from '@/components/TransitionsModal';
 import CreateCategoryModal from './CreateCategoryModal';
 import CreateProductModal from './CreateProductModal';
 import { set } from 'immer/dist/internal';
+import UpadeteProductModal from './UpdateProductModal';
 
 function Management() {
   const theme = useTheme();
@@ -42,29 +43,28 @@ function Management() {
   const [openCategory, setOpenCategory] = React.useState(false);
   const handleOpenCategory = () => {
     setOpenCategory(true);
-    setOperation(true);
   };
   const handleEditCategory = (id: string) => {
     setOpenCategory(true);
-    setOperation(false);
     setProductId(id);
   };
   const [openProduct, setOpenProduct] = React.useState(false);
-  const [operation, setOperation] = React.useState(true);
   const [productId, setProductId] = React.useState('');
   const handleOpenProduct = () => {
     setOpenProduct(true);
-    setOperation(true);
   };
+
+  const [openUpdateProduct, setOpenUpdateProduct] = React.useState(false);
   const handleEditProduct = (id: string) => {
-    setOpenProduct(true);
-    setOperation(false);
+    /////////////
+    setOpenUpdateProduct(true);
     setProductId(id);
   };
 
   const handleClose = () => {
     setOpenCategory(false);
     setOpenProduct(false);
+    setOpenUpdateProduct(false);
   };
 
   const handleDeleteProduct = (id: string) => {
@@ -74,8 +74,7 @@ function Management() {
       .then((res) => res.json())
       .then((data) => {
         setProducts(products.filter((product: any) => product.id !== id));
-      }
-      );
+      });
   };
 
   const handleDeleteCategory = (id: string) => {
@@ -85,10 +84,8 @@ function Management() {
       .then((res) => res.json())
       .then((data) => {
         setCategories(categories.filter((category: any) => category.id !== id));
-      }
-      );
+      });
   };
-
 
   return (
     <Box
@@ -158,13 +155,13 @@ function Management() {
               Categories
             </Typography>
             <DataTable title="Products" data={categories} edit={handleEditCategory} destroy={handleDeleteCategory} />
-
           </Box>
         </Box>
       )}
 
-      <CreateCategoryModal open={openCategory} handleClose={handleClose} type={operation} productId={productId} />
-      <CreateProductModal open={openProduct} handleClose={handleClose} type={operation} productId={productId} />
+      <CreateCategoryModal open={openCategory} handleClose={handleClose} />
+      {openUpdateProduct && <UpadeteProductModal open={openUpdateProduct} handleClose={handleClose} productId={productId} />}
+      <CreateProductModal open={openProduct} handleClose={handleClose} />
     </Box>
   );
 }
