@@ -45,7 +45,7 @@ function UpadeteProductModal({ open, handleClose, productId }: props) {
         name: data[0].name,
         description: data[0].description,
         price: data[0].price,
-        categories: data[0].category,
+        categories: data[0].category.map((category: any) => category._id),
         quantity: data[0].quantity
       });
 
@@ -53,10 +53,10 @@ function UpadeteProductModal({ open, handleClose, productId }: props) {
     }, 1000);
   };
 
-  //   values.name === '' && getProduct();
+  values.name === '' && getProduct();
 
   useEffect(() => {
-    values.name === '' && getProduct();
+    // values.name === '' && getProduct();
 
     fetch('http://127.0.0.1:4000/api/category')
       .then((response) => response.json())
@@ -87,8 +87,8 @@ function UpadeteProductModal({ open, handleClose, productId }: props) {
       image.forEach((img) => formData.append('images', img));
       console.log(image);
 
-      //   console.log(formData);
-      //   return;
+      // console.log(values.categories);
+      // return;
       await mutateAsync({ id: productId, data: formData })
         .unwrap()
         .then((res) => {

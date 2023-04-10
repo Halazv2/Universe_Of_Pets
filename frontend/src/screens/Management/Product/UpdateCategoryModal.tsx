@@ -6,12 +6,13 @@ import { useGetProductsQuery } from '@/state/api';
 import TransitionsModal from '@/components/TransitionsModal';
 import CostumInput from '@/components/CostumInput';
 import CostumButton from '@/components/CostumButton';
-import { useSetCategoryMutation } from '@/state/api';
+import { useGetCategoryQuery, useUpdateCategoryMutation } from '@/state/api';
 import ImageUploader from '@/components/MultipleImageUpload';
 
 type props = {
   open: boolean;
   handleClose: () => void;
+  categoryId?: any;
 };
 
 type values = {
@@ -19,7 +20,7 @@ type values = {
   description: string;
 };
 
-function UpdateCategoryModal({ open, handleClose }: props) {
+function UpdateCategoryModal({ open, handleClose, categoryId }: props) {
   const theme = useTheme();
 
   const [values, setValues] = React.useState<values>({ name: '', description: '' });
@@ -28,7 +29,13 @@ function UpdateCategoryModal({ open, handleClose }: props) {
   const handleChange = (prop: any) => (event: any) => {
     setValues({ ...values, [prop]: event.target.value });
   };
-  const [mutateAsync, { isLoading, error }] = useSetCategoryMutation();
+  const [mutateAsync, { isLoading, error }] = useUpdateCategoryMutation();
+  const { data } = useGetCategoryQuery(categoryId);
+
+  if (data) {
+    values.name === '' && setValues({ ...values, name: data.category.name, description: data.category.description });
+    console.log(data);
+  }
 
   const onSubmit = async () => {
     if (values.name === '') {
@@ -36,10 +43,7 @@ function UpdateCategoryModal({ open, handleClose }: props) {
     } else if (values.description === '') {
       setErrors({ ...errors, description: true });
     } else {
-      await mutateAsync({
-        name: values.name,
-        description: values.description
-      });
+      await mutateAsync({ id: categoryId, data: values });
       handleClose();
     }
   };

@@ -8,6 +8,7 @@ import CreateCategoryModal from './CreateCategoryModal';
 import CreateProductModal from './CreateProductModal';
 import { set } from 'immer/dist/internal';
 import UpadeteProductModal from './UpdateProductModal';
+import UpdateCategoryModal from './UpdateCategoryModal';
 
 function Management() {
   const theme = useTheme();
@@ -18,7 +19,9 @@ function Management() {
   const { data: categoriesData, isLoading: categoriesLoading, error: categoriesError } = useGetCategoriesQuery();
   const [openProduct, setOpenProduct] = React.useState(false);
   const [pId, setProductId] = React.useState(null);
+  const [cId, setCategoryId] = React.useState(null);
   const [openCategory, setOpenCategory] = React.useState(false);
+  const [openUpdateCategory, setOpenUpdateCategory] = React.useState(false);
 
   useEffect(() => {
     if (productsData && categoriesData) {
@@ -46,9 +49,11 @@ function Management() {
   const handleOpenCategory = () => {
     setOpenCategory(true);
   };
+
   const handleEditCategory = (id: string) => {
-    setOpenCategory(true);
-    setProductId(id);
+    setOpenUpdateCategory(true);
+    setCategoryId(id);
+    // console.log(id);
   };
 
   const handleOpenProduct = () => {
@@ -65,6 +70,7 @@ function Management() {
     setOpenCategory(false);
     setOpenProduct(false);
     setOpenUpdateProduct(false);
+    setOpenUpdateCategory(false);
   };
 
   const handleDeleteProduct = (id: string) => {
@@ -159,7 +165,9 @@ function Management() {
 
       <CreateCategoryModal open={openCategory} handleClose={handleClose} />
       {openUpdateProduct && <UpadeteProductModal open={openUpdateProduct} handleClose={handleClose} productId={pId} />}
+
       <CreateProductModal open={openProduct} handleClose={handleClose} />
+      {openUpdateCategory && <UpdateCategoryModal open={openUpdateCategory} handleClose={handleClose} categoryId={cId} />}
     </Box>
   );
 }
