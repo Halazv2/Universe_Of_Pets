@@ -7,6 +7,7 @@ import Dashboard from './screens/dashboaed';
 import Navbar from './screens/navbar';
 import { themeSettings } from './theme';
 import Management from './screens/Management';
+import Login from './screens/auth/Login';
 
 function App() {
   const theme = useMemo(() => createTheme(themeSettings), []);
@@ -19,6 +20,7 @@ function App() {
             <Navbar />
             <Routes>
               <Route path="/" element={<Dashboard />} />
+              <Route path="/login" element={<Login />} />
               {/* <Route path="/predictions" element={<h1>Predictions</h1>} /> */}
               <Route path="/management" element={<Management />} />
             </Routes>

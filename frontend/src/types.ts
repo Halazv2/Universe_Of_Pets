@@ -93,3 +93,9 @@ export interface GetUsersAndOrdersResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface GetLoginResponse {
+  email: string; 
+  password: string 
+}
+
