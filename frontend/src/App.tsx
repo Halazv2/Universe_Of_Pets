@@ -19,7 +19,7 @@ function App() {
             <Navbar />
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/predictions" element={<h1>Predictions</h1>} />
+              {/* <Route path="/predictions" element={<h1>Predictions</h1>} /> */}
               <Route path="/management" element={<Management />} />
             </Routes>
           </Box>

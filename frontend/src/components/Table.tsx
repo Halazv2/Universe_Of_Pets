@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Button, CardHeader, Typography } from '@mui/material';
+import { Box, Button, CardHeader, Typography } from '@mui/material';
 
 type porps = {
   title: string;
@@ -85,22 +85,34 @@ function DataTable({ title, data, edit, destroy }: porps) {
                         {row[header].slice(0, 5) + '...'}
                       </Typography>
                     ) : (
-                      <Typography variant="h6" fontSize="16px" style={{ 
-                        display: 'flex',
-                       }}>
+                      <Typography
+                        variant="h6"
+                        fontSize="16px"
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center'
+                        }}
+                      >
                         {typeof row[header] === 'object' ? (
                           row[header].map((item: any) => item.name).join(', ')
                         ) : header === 'description' ? (
                           row[header].slice(0, 20) + '...'
                         ) : header === 'operation' ? (
-                          <>
-                            <Button variant="contained" color="primary" onClick={() => edit(row[header])}>
+                          <Box>
+                            <Button variant="contained" color="primary" onClick={() => edit(row[header])}
+                            style={{ 
+                              color: 'white', 
+                              width: 'fit-content',
+                              
+                              } }
+                            >
                               E
                             </Button>
                             <Button variant="contained" color="error" style={{ marginLeft: '10px' }} onClick={() => destroy(row[header])}>
                               D
                             </Button>
-                          </>
+                          </Box>
                         ) : (
                           row[header]
                         )}

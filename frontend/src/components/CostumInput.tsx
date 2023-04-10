@@ -11,7 +11,7 @@ type Props = {
   label: string;
 };
 
-const CostumInput = ({ placeholder, error, message, value, onChange, label }: Props) => {
+const CostumInput = ({ placeholder, error, message, value, onChange, label, width }: Props) => {
   const { palette } = useTheme();
   return (
     <>
@@ -21,6 +21,7 @@ const CostumInput = ({ placeholder, error, message, value, onChange, label }: Pr
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        fullWidth
         sx={{
           width: '100%',
           marginBottom: '1rem',

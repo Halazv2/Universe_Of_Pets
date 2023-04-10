@@ -32,26 +32,31 @@ function UpadeteProductModal({ open, handleClose, productId }: props) {
 
   const handleChange = (prop: any) => (event: any) => {
     setValues({ ...values, [prop]: event.target.value });
+    console.log(event.target.value);
   };
 
   const [mutateAsync, { isLoading: isMutating, error: mutateError }] = useUpdateProductMutation();
   const { data, isLoading, error } = useGetProductQuery(productId);
 
-  useEffect(() => {
-    console.log(productId);
-    setValues({
-      ...values,
-      name: data?.name,
-      description: data?.description,
-      price: data?.price,
-      categories: data?.category,
-      quantity: data?.quantity
-    });
-
-    setImage(data?.images);
+  const getProduct = async () => {
     setTimeout(() => {
-      console.log(data);
+      setValues({
+        ...values,
+        name: data[0].name,
+        description: data[0].description,
+        price: data[0].price,
+        categories: data[0].category,
+        quantity: data[0].quantity
+      });
+
+      console.log(values, data);
     }, 1000);
+  };
+
+  //   values.name === '' && getProduct();
+
+  useEffect(() => {
+    values.name === '' && getProduct();
 
     fetch('http://127.0.0.1:4000/api/category')
       .then((response) => response.json())
@@ -60,6 +65,7 @@ function UpadeteProductModal({ open, handleClose, productId }: props) {
         setCategory(unique);
       });
   }, []);
+  //   console.log(data);
 
   const onSubmit = async () => {
     if (values.name === '') {
@@ -71,7 +77,6 @@ function UpadeteProductModal({ open, handleClose, productId }: props) {
     } else if (values.categories.length === 0) {
       setErrors({ ...errors, category: true });
     } else {
-      // return;
       const formData = new FormData();
       formData.append('name', values.name);
       formData.append('description', values.description);
@@ -82,6 +87,8 @@ function UpadeteProductModal({ open, handleClose, productId }: props) {
       image.forEach((img) => formData.append('images', img));
       console.log(image);
 
+      //   console.log(formData);
+      //   return;
       await mutateAsync({ id: productId, data: formData })
         .unwrap()
         .then((res) => {

@@ -19,7 +19,7 @@ export const api = createApi({
     }),
     updateProduct: build.mutation<GetProductsResponse, FormData>({
       query: (product) => ({
-        url: `products/${product.get('id')}`,
+        url: `products/${product.id}`,
         method: 'PUT',
         body: product
       }),
@@ -43,6 +43,14 @@ export const api = createApi({
     getCategories: build.query<Array<getCategoryResponse>, void>({
       query: () => 'category',
       providesTags: ['Category']
+    }),
+    updateCategory: build.mutation<getCategoryResponse, FormData>({
+      query: (category) => ({
+        url: `category/${category.id}`,
+        method: 'PUT',
+        body: category
+      }),
+      invalidatesTags: ['Category']
     }),
     setProducts: build.mutation<GetProductsResponse, FormData>({
       query: (product) => ({

@@ -16,6 +16,9 @@ function Management() {
 
   const { data: productsData, isLoading: productsLoading, error: productsError } = useGetProductsQuery();
   const { data: categoriesData, isLoading: categoriesLoading, error: categoriesError } = useGetCategoriesQuery();
+  const [openProduct, setOpenProduct] = React.useState(false);
+  const [pId, setProductId] = React.useState(null);
+  const [openCategory, setOpenCategory] = React.useState(false);
 
   useEffect(() => {
     if (productsData && categoriesData) {
@@ -40,7 +43,6 @@ function Management() {
     }
   }, [productsData, categoriesData]);
 
-  const [openCategory, setOpenCategory] = React.useState(false);
   const handleOpenCategory = () => {
     setOpenCategory(true);
   };
@@ -48,17 +50,15 @@ function Management() {
     setOpenCategory(true);
     setProductId(id);
   };
-  const [openProduct, setOpenProduct] = React.useState(false);
-  const [productId, setProductId] = React.useState('');
+
   const handleOpenProduct = () => {
     setOpenProduct(true);
   };
 
   const [openUpdateProduct, setOpenUpdateProduct] = React.useState(false);
-  const handleEditProduct = (id: string) => {
-    /////////////
-    setOpenUpdateProduct(true);
+  const handleEditProduct = async (id: string) => {
     setProductId(id);
+    setOpenUpdateProduct(true);
   };
 
   const handleClose = () => {
@@ -109,8 +109,6 @@ function Management() {
           width="100%"
           height="100%"
           sx={{
-            display: 'flex',
-            flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
             gap: '1rem',
@@ -160,7 +158,7 @@ function Management() {
       )}
 
       <CreateCategoryModal open={openCategory} handleClose={handleClose} />
-      {openUpdateProduct && <UpadeteProductModal open={openUpdateProduct} handleClose={handleClose} productId={productId} />}
+      {openUpdateProduct && <UpadeteProductModal open={openUpdateProduct} handleClose={handleClose} productId={pId} />}
       <CreateProductModal open={openProduct} handleClose={handleClose} />
     </Box>
   );

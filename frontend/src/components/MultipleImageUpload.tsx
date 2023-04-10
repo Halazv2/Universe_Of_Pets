@@ -9,6 +9,7 @@ type props = {
 };
 
 function ImageUploader({ image, setImage }: props) {
+  
   const [images, setImages] = useState<Array<string>>([]);
   const handleMultipleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -34,7 +35,9 @@ function ImageUploader({ image, setImage }: props) {
   };
 
   const deleteImage = (index: number) => {
+    console.log(index);
     setImage((prev: any) => prev.filter((_: any, i: number) => i !== index));
+    setImages((prev: any) => prev.filter((_: any, i: number) => i !== index));
   };
 
   return (
