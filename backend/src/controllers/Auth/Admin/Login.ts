@@ -14,10 +14,10 @@ export const addAccountSchema = Joi.object().keys({
 const AdminLogin: RequestHandler = async (req: Request<{}, {}, IAccount>, res) => {
   const {email, password} = req.body;
   const admin = (await Admin.findOne({email})) as IAccount;
-  !admin ? res.send({message: "Admin not found"}) : null;
+  if(!admin) return res.send({message: "Email not found"})
   const passwordIsValid = 
     bcrypt.compareSync(password, admin.password) ? true : false;
-  !passwordIsValid ? res.send({message: "Invalid password"}) : null;
+  if(!passwordIsValid) return res.send({message: "Invalid password"});
   let token = jwt.sign({id: admin._id}, process.env.SECRET as string, {
     expiresIn: 86400,
   });

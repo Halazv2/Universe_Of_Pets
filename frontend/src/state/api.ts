@@ -1,10 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { GetKpisResponse, GetOrdersResponse, GetProductsResponse, getCategoryResponse } from '../types';
+import { GetKpisResponse, GetOrdersResponse, GetProductsResponse, getCategoryResponse, GetLoginResponse } from '../types';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
-  tagTypes: ['Kpi', 'Products', 'Category', 'Orders'],
-  endpoints: (build) => ({
+  tagTypes: ['Kpi', 'Products', 'Category', 'Orders', 'Login'],
+  endpoints: (build:any) => ({
+    
+    login: build.mutation<GetLoginResponse, FormData>({
+      query: (data) => ({
+        url: `admin/login`,
+        method: 'POST',
+        body: data
+      }),
+      providesTags: ['Login']
+    }),
     getKpis: build.query<Array<GetKpisResponse>, void>({
       query: () => 'statistics/KPI',
       providesTags: ['Kpi']
@@ -76,6 +85,7 @@ export const api = createApi({
 });
 
 export const {
+  useLoginMutation,
   useGetKpisQuery,
   useGetProductsQuery,
   useSetCategoryMutation,

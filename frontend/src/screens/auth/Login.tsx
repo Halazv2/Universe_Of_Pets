@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { Formik } from "formik";
+import { useLoginMutation } from '@/state/api';
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -9,8 +10,28 @@ const schema = yup.object().shape({
 });
 
 export default function Login() {
-  const handleOnSubmit = (values: { email: string, password: string }) => {
-    console.log(values);
+  const [mutateAsync, { isLoading, error }] = useLoginMutation();
+  const navigate = useNavigate();
+
+  const handleOnSubmit = async(values: { email: string, password: string }) => {
+    await mutateAsync(values)
+      .unwrap()
+      .then((res:any) => {
+        console.log(res)
+        if(res.message !== undefined) {
+          alert(res.message);
+        } else {
+          localStorage.setItem("accessToken", res.accessToken);
+          localStorage.setItem("userID", res.userID);
+          localStorage.setItem("userEmail", res.userEmail);
+          navigate("/");
+        }
+      }
+      )
+      .catch((error:any) => {
+        console.log(error);
+      }
+      )
   };
 
   return (
